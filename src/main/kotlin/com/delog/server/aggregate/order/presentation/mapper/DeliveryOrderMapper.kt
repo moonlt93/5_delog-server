@@ -19,7 +19,8 @@ class DeliveryOrderMapper {
             imageUrl = dto.imageUrl,
             platform = dto.platform,
             memo = dto.memo,
-            rating = dto.rating
+            rating = dto.rating,
+            username = ""
         )
     }
 
