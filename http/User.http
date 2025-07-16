@@ -1,0 +1,26 @@
+### ========================================
+### Statistics API Test
+### ========================================
+
+# 변수 설정 (테스트할 서버 주소)
+@host = http://localhost:8080
+@api_prefix = {{host}}/api/user
+
+
+### 1. registerUser
+POST {{api_prefix}}/register
+Content-Type: application/json
+
+{
+  "username": "simson",
+  "name": "manager"
+}
+
+
+### 2. user detail 조회 테스트
+# 이전에 생성된 주문의 ID를 사용하여 조회
+@username = simson
+GET {{api_prefix}}/{{username}}
+Accept: application/json
+Authorization: admin
+

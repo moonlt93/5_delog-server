@@ -10,6 +10,7 @@
 ### 1. getPageableStatistics
 GET {{api_prefix}}/list?page=0&size=10&startDate=2025-07-01&endDate=2025-07-16
 Content-Type: application/json
+Authorization: admin
 
 #{
 #  "page": 0,
@@ -21,7 +22,8 @@ Content-Type: application/json
 
 ### 2. detail 조회 테스트
 # 이전에 생성된 주문의 ID를 사용하여 조회
-@statsId = 11
+@statsId = 5
 GET {{api_prefix}}/detail/{{statsId}}
 Accept: application/json
+Authorization: admin
 
