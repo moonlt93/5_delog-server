@@ -11,7 +11,7 @@ class WebMvcConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(authenticationInterceptor)
-            .addPathPatterns("/**")              // 모든 경로에 적용
-            .excludePathPatterns("/api/user/register") // 예외 처리할 경로
+            .addPathPatterns("/**")
+            .excludePathPatterns("/api/user/register")
     }
 }
