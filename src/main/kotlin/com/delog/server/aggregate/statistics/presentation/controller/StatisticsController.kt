@@ -1,9 +1,11 @@
 package com.delog.server.aggregate.statistics.presentation.controller
 
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsMonthlyResponse
 import com.delog.server.aggregate.statistics.presentation.mapper.StatisticsWebMapper
 import com.delog.server.aggregate.statistics.service.GetPageableStaticsListService
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsPaginateResponse
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsPaginateResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsResponse
+import com.delog.server.aggregate.statistics.service.GetMonthlyStaticsService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class StatisticsController(
 
     private val getPageableStaticsListService: GetPageableStaticsListService,
+    private val getMonthlyStaticsService: GetMonthlyStaticsService,
 
     private val statisticsWebMapper: StatisticsWebMapper
 
@@ -45,6 +48,14 @@ class StatisticsController(
         return ResponseEntity.ok(weeklyList);
     }
 
+    @GetMapping("/monthly")
+    fun getMonthlyStatisticsInfo(
+        @RequestParam month: Int,
+    ): ResponseEntity<StatisticsMonthlyResponse> {
 
+        val monthlyData = getMonthlyStaticsService.getMonthlyStatistics(month);
+        return ResponseEntity.ok(monthlyData);
+
+    }
 
 }
