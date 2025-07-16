@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class DeliveryOrderMapper {
-
-    fun toEntity(dto: CreateDeliveryOrderRequest): DeliveryOrderEntity {
-        return DeliveryOrderEntity(
+    fun toEntity(dto: CreateDeliveryOrderRequest): DeliveryOrderEntity =
+        DeliveryOrderEntity(
             menuName = dto.menuName,
             price = dto.price,
             quantity = dto.quantity,
@@ -20,12 +19,11 @@ class DeliveryOrderMapper {
             platform = dto.platform,
             memo = dto.memo,
             rating = dto.rating,
-            username = ""
+            username = "",
         )
-    }
 
-    fun toResponse(entity: DeliveryOrderEntity): GetDeliveryOrderResponse {
-        return GetDeliveryOrderResponse(
+    fun toResponse(entity: DeliveryOrderEntity): GetDeliveryOrderResponse =
+        GetDeliveryOrderResponse(
             id = entity.id,
             menuName = entity.menuName,
             price = entity.price,
@@ -38,7 +36,6 @@ class DeliveryOrderMapper {
             memo = entity.memo,
             rating = entity.rating,
             createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt
+            updatedAt = entity.updatedAt,
         )
-    }
 }

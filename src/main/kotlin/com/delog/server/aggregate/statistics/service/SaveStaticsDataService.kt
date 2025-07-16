@@ -8,14 +8,10 @@ import org.springframework.stereotype.Service
 @Service
 class SaveStaticsDataService(
     private val staticsRepository: StaticsRepository,
-    private val statsPersistenceMapper: StatsPersistenceMapper
+    private val statsPersistenceMapper: StatsPersistenceMapper,
 ) {
-
-    fun saveStatisticsWeeklyData(stats: Stats): Unit {
-
-        val createEntity = statsPersistenceMapper.mapToEntity(stats);
-        staticsRepository.save(createEntity);
-
+    fun saveStatisticsWeeklyData(stats: Stats) {
+        val createEntity = statsPersistenceMapper.mapToEntity(stats)
+        staticsRepository.save(createEntity)
     }
-
 }

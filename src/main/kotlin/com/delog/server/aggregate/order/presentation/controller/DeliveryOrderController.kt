@@ -17,23 +17,25 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/api/orders")
 class DeliveryOrderController(
     private val deliveryOrderService: DeliveryOrderService,
-    private val deliveryOrderMapper: DeliveryOrderMapper
+    private val deliveryOrderMapper: DeliveryOrderMapper,
 ) {
-
     @PostMapping
-    fun createOrder(@Valid @RequestBody request: CreateDeliveryOrderRequest): ResponseEntity<GetDeliveryOrderResponse> {
+    fun createOrder(
+        @Valid @RequestBody request: CreateDeliveryOrderRequest,
+    ): ResponseEntity<GetDeliveryOrderResponse> {
         val createdEntity = deliveryOrderService.createOrder(request)
         val response = deliveryOrderMapper.toResponse(createdEntity)
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
     @GetMapping("/{id}")
-    fun getOrderById(@PathVariable id:Long): ResponseEntity<GetDeliveryOrderResponse> {
+    fun getOrderById(
+        @PathVariable id: Long,
+    ): ResponseEntity<GetDeliveryOrderResponse> {
         val entity = deliveryOrderService.findOrderById(id)
         val response = deliveryOrderMapper.toResponse(entity)
         return ResponseEntity.ok(response)
@@ -47,15 +49,17 @@ class DeliveryOrderController(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteOrder(@PathVariable id:Long): ResponseEntity<Void> {
+    fun deleteOrder(
+        @PathVariable id: Long,
+    ): ResponseEntity<Void> {
         deliveryOrderService.deleteOrder(id)
         return ResponseEntity.noContent().build()
     }
 
     @PutMapping("/{id}")
     fun updateOrder(
-        @PathVariable id:Long,
-        @Valid @RequestBody request: UpdateDeliveryOrderRequest
+        @PathVariable id: Long,
+        @Valid @RequestBody request: UpdateDeliveryOrderRequest,
     ): ResponseEntity<GetDeliveryOrderResponse> {
         val updatedEntity = deliveryOrderService.updateOrder(id, request)
         val response = deliveryOrderMapper.toResponse(updatedEntity)

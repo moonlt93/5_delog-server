@@ -9,15 +9,11 @@ import org.springframework.stereotype.Service
 @Service
 class RegisterUserService(
     private val userRepository: UserRepository,
-    private val userPersistenceMapper: UserPersistenceMapper
+    private val userPersistenceMapper: UserPersistenceMapper,
 ) {
-
     fun registerUser(request: CreateUserInfoRequest): CreateUserResponse {
-
-        val userEntity = userPersistenceMapper.mapToEntity(request);
-        val savedEntity = userRepository.save(userEntity);
-        return userPersistenceMapper.mapToResponse(savedEntity);
-
+        val userEntity = userPersistenceMapper.mapToEntity(request)
+        val savedEntity = userRepository.save(userEntity)
+        return userPersistenceMapper.mapToResponse(savedEntity)
     }
-
 }

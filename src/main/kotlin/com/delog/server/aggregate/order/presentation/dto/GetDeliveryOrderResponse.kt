@@ -18,5 +18,5 @@ data class GetDeliveryOrderResponse(
     val memo: String?,
     val rating: Int?,
     val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?
+    val updatedAt: LocalDateTime?,
 )

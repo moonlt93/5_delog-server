@@ -10,20 +10,19 @@ import java.time.LocalDate
 @Service
 @Transactional(readOnly = true)
 class GetDeliveryOrderListService(
-    private val deliveryOrderRepository: DeliveryOrderRepository
+    private val deliveryOrderRepository: DeliveryOrderRepository,
 ) {
-
-    fun getOrderListByUser(username: String, currentDate: LocalDate): List<DeliveryOrderEntity> {
-
+    fun getOrderListByUser(
+        username: String,
+        currentDate: LocalDate,
+    ): List<DeliveryOrderEntity> {
         val endDate = currentDate.minusDays(1).atTime(23, 59, 59)
         val startDate = currentDate.minusDays(6).atStartOfDay()
 
-        return deliveryOrderRepository.findDataByWeekAtSunday(startDate, endDate, username);
+        return deliveryOrderRepository.findDataByWeekAtSunday(startDate, endDate, username)
     }
 
-
     fun getAllUsernames(currentDate: LocalDate): List<String> {
-
         val endDate = currentDate.minusDays(1).atTime(23, 59, 59)
         val startDate = currentDate.minusDays(6).atStartOfDay()
 
@@ -31,5 +30,4 @@ class GetDeliveryOrderListService(
             .findRangeUsername(startDate, endDate)
             .map { it }
     }
-
 }

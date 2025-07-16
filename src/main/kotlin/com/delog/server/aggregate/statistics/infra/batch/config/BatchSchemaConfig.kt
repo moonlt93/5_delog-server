@@ -9,7 +9,6 @@ import javax.sql.DataSource
 
 @Configuration
 class BatchSchemaConfig {
-
     @Bean
     fun dataSourceInitializer(dataSource: DataSource): DataSourceInitializer {
         val initializer = DataSourceInitializer()
@@ -20,6 +19,5 @@ class BatchSchemaConfig {
         initializer.setDatabasePopulator(populator)
 
         return initializer
-
     }
 }

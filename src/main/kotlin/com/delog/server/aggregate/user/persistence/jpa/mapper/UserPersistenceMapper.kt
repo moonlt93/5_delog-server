@@ -8,27 +8,22 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserPersistenceMapper {
-
-    fun mapToEntity(request: CreateUserInfoRequest): UserEntity {
-        return UserEntity(
+    fun mapToEntity(request: CreateUserInfoRequest): UserEntity =
+        UserEntity(
             request.username,
-            request.name
+            request.name,
         )
-    }
 
-    fun mapToResponse(savedEntity: UserEntity): CreateUserResponse {
-        return CreateUserResponse(
+    fun mapToResponse(savedEntity: UserEntity): CreateUserResponse =
+        CreateUserResponse(
             savedEntity.username,
-            savedEntity.name
+            savedEntity.name,
         )
-    }
 
-    fun mapToInfoResponse(entity: UserEntity): UserInfoResponse {
-        return UserInfoResponse(
+    fun mapToInfoResponse(entity: UserEntity): UserInfoResponse =
+        UserInfoResponse(
             entity.username,
             entity.name,
-            entity.createdAt
+            entity.createdAt,
         )
-    }
-
 }

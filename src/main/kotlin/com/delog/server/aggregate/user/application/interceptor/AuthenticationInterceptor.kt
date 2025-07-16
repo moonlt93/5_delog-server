@@ -11,46 +11,43 @@ import java.lang.Exception
 
 @Component
 class AuthenticationInterceptor(
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
 ) : HandlerInterceptor {
-
-    private val logger: Logger = LoggerFactory.getLogger(javaClass);
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: Any
+        handler: Any,
     ): Boolean {
-
         val username = request.getHeader("Authorization")
 
-        logger.info("Pre-handling request for authentication username {}", request.getHeader("Authorization"));
+        logger.info("Pre-handling request for authentication username {}", request.getHeader("Authorization"))
 
         if (username.isNullOrBlank()) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
             response.contentType = "application/json; charset=UTF-8"
             response.writer.write(" username is not nullable")
-            return false;
+            return false
         }
 
         if (!authenticationService.authenticate(username)) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
             response.contentType = "application/json; charset=UTF-8"
             response.writer.write("Invalid username $username")
-            return false;
+            return false
         }
 
-        return true;
+        return true
     }
 
     override fun afterCompletion(
         request: HttpServletRequest,
         response: HttpServletResponse,
         handler: Any,
-        ex: Exception?
+        ex: Exception?,
     ) {
-        UserContextHolder.clearUser();
-        logger.info("@@@ Successful Request completed for authentication @@@@@");
-
+        UserContextHolder.clearUser()
+        logger.info("@@@ Successful Request completed for authentication @@@@@")
     }
 }

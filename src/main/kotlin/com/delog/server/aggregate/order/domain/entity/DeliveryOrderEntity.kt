@@ -25,44 +25,30 @@ class DeliveryOrderEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-
     @Column(nullable = false)
     var menuName: String,
-
     @Column(nullable = false)
     var price: BigDecimal,
-
     @Column(nullable = false)
     var quantity: Int,
-
     @Column(nullable = false)
     var peopleCount: Int,
-
     @Column(nullable = false)
     var orderDateTime: LocalDateTime,
-
     @Enumerated(EnumType.STRING)
     var category: FoodType?,
-
     var imageUrl: String?,
-
     @Enumerated(EnumType.STRING)
     var platform: DeliveryPlatform?,
-
     @Lob
     var memo: String?,
-
     var rating: Int?,
-
     @Column(nullable = false)
     var username: String,
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime? = null,
-
     @LastModifiedDate
     @Column(nullable = false)
-    var updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime? = null,
 )
-

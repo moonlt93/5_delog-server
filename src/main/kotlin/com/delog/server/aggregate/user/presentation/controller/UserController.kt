@@ -18,22 +18,21 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/user")
 class UserController(
     private val registerUserService: RegisterUserService,
-    private val getUserInfoService: GetUserInfoService
+    private val getUserInfoService: GetUserInfoService,
 ) {
-
     @PostMapping("/register")
-    fun registerUser(@RequestBody request: CreateUserInfoRequest): ResponseEntity<CreateUserResponse> {
-
-        val userInfo = registerUserService.registerUser(request);
+    fun registerUser(
+        @RequestBody request: CreateUserInfoRequest,
+    ): ResponseEntity<CreateUserResponse> {
+        val userInfo = registerUserService.registerUser(request)
         return ResponseEntity.status(HttpStatus.CREATED).body(userInfo)
-
     }
 
     @GetMapping("/{username}")
-    fun getUserInfo(@PathVariable username: String): ResponseEntity<UserInfoResponse> {
-
+    fun getUserInfo(
+        @PathVariable username: String,
+    ): ResponseEntity<UserInfoResponse> {
         val getUserInfo = getUserInfoService.findByUsername(username)
         return ResponseEntity.ok(getUserInfo)
-
     }
 }

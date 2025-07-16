@@ -13,13 +13,10 @@ import java.time.LocalDateTime
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener::class)
 class UserEntity(
-
     @Id
     @Column(name = "username", nullable = false)
     var username: String,
-
     var name: String,
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime? = null,

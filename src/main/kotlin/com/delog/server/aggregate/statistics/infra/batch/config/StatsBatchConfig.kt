@@ -19,54 +19,55 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 import java.time.LocalDate
 
-
 @Configuration(proxyBeanMethods = true)
 @EnableBatchProcessing
 class StatsBatchConfig(
     private val jobRepository: JobRepository,
     private val txManager: PlatformTransactionManager,
     private val getDeliveryOrderListService: GetDeliveryOrderListService,
-    private val saveStaticsDataService: SaveStaticsDataService
+    private val saveStaticsDataService: SaveStaticsDataService,
 ) {
-
     @Bean
     fun userListReader(): ItemReader<List<String>> {
         val currentDate = LocalDate.now()
-        val allUsernames = getDeliveryOrderListService
-            .getAllUsernames(currentDate)
-            .distinct()
+        val allUsernames =
+            getDeliveryOrderListService
+                .getAllUsernames(currentDate)
+                .distinct()
         return ListItemReader(listOf(allUsernames))
     }
 
     @Bean
-    fun statsListProcessor(): ItemProcessor<List<String>, List<Stats>> = ItemProcessor { usernames ->
-        val results = mutableListOf<Stats>()
-        val currentDate = LocalDate.now()
+    fun statsListProcessor(): ItemProcessor<List<String>, List<Stats>> =
+        ItemProcessor { usernames ->
+            val results = mutableListOf<Stats>()
+            val currentDate = LocalDate.now()
 
-        usernames.forEach { username ->
+            usernames.forEach { username ->
 
-            val orders = getDeliveryOrderListService.getOrderListByUser(username, currentDate)
+                val orders = getDeliveryOrderListService.getOrderListByUser(username, currentDate)
 
-            if (orders.isEmpty()) return@forEach
+                if (orders.isEmpty()) return@forEach
 
-            val stats = Stats
-                .createDomainFromEntity(orders, currentDate)
-                .apply { this.username = username }
+                val stats =
+                    Stats
+                        .createDomainFromEntity(orders, currentDate)
+                        .apply { this.username = username }
 
-            results += stats
+                results += stats
+            }
+            results
         }
-        results
-    }
 
     @Bean
-    fun statsListWriter(): ItemWriter<List<Stats>> = ItemWriter { chunks ->
-        val statsList: List<Stats> = chunks.first()
+    fun statsListWriter(): ItemWriter<List<Stats>> =
+        ItemWriter { chunks ->
+            val statsList: List<Stats> = chunks.first()
 
-        statsList.forEach { stats ->
-            saveStaticsDataService.saveStatisticsWeeklyData(stats)
+            statsList.forEach { stats ->
+                saveStaticsDataService.saveStatisticsWeeklyData(stats)
+            }
         }
-
-    }
 
     @Bean
     fun statsStep(): Step =
@@ -82,6 +83,4 @@ class StatsBatchConfig(
         JobBuilder("statsJob", jobRepository)
             .start(statsStep())
             .build()
-
 }
-

@@ -13,23 +13,20 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class DeliveryOrderService(
     private val deliveryOrderRepository: DeliveryOrderRepository,
-    private val deliveryOrderMapper: DeliveryOrderMapper
+    private val deliveryOrderMapper: DeliveryOrderMapper,
 ) {
-
     @Transactional
     fun createOrder(request: CreateDeliveryOrderRequest): DeliveryOrderEntity {
         val entity = deliveryOrderMapper.toEntity(request)
         return deliveryOrderRepository.save(entity)
     }
 
-    fun findOrderById(id:Long): DeliveryOrderEntity {
-        return deliveryOrderRepository.findById(id)
-            .orElseThrow{ EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
-    }
+    fun findOrderById(id: Long): DeliveryOrderEntity =
+        deliveryOrderRepository
+            .findById(id)
+            .orElseThrow { EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
 
-    fun findAllOrders():List<DeliveryOrderEntity> {
-        return deliveryOrderRepository.findAll()
-    }
+    fun findAllOrders(): List<DeliveryOrderEntity> = deliveryOrderRepository.findAll()
 
     @Transactional
     fun deleteOrder(id: Long) {
@@ -40,7 +37,10 @@ class DeliveryOrderService(
     }
 
     @Transactional
-    fun updateOrder(id:Long, request: UpdateDeliveryOrderRequest): DeliveryOrderEntity {
+    fun updateOrder(
+        id: Long,
+        request: UpdateDeliveryOrderRequest,
+    ): DeliveryOrderEntity {
         val existingEntity = findOrderById(id)
 
         existingEntity.apply {
@@ -57,5 +57,4 @@ class DeliveryOrderService(
         }
         return existingEntity
     }
-
 }
