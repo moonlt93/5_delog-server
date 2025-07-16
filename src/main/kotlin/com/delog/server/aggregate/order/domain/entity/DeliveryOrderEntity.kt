@@ -21,10 +21,10 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "delivery_order")
 @EntityListeners(AuditingEntityListener::class)
-class DeliveryOrderEntity (
+class DeliveryOrderEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id:Long = 0L,
+    val id: Long = 0L,
 
     @Column(nullable = false)
     var menuName: String,
@@ -53,6 +53,9 @@ class DeliveryOrderEntity (
     var memo: String?,
 
     var rating: Int?,
+
+    @Column(nullable = false)
+    var username: String,
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
