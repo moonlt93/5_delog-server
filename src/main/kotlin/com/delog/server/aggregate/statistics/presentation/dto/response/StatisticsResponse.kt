@@ -13,6 +13,5 @@ data class StatisticsResponse(
     val minOrderGap: Int,
     val averageOrderGap: Int,
     val totalItemCount: Int,
-    val deliveryOrderIdList: List<Long> = listOf()
-) {
-}
+    val deliveryOrderIdList: List<Long> = listOf(),
+)

@@ -7,17 +7,19 @@ import java.time.format.DateTimeFormatter
 
 @Component
 class StatisticsWebMapper {
-
-    fun mapToRequest(page: Int, size: Int, startDate: String, endDate: String): StatisticsCommand {
-        val ofPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    fun mapToRequest(
+        page: Int,
+        size: Int,
+        startDate: String,
+        endDate: String,
+    ): StatisticsCommand {
+        val ofPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         return StatisticsCommand(
             page,
             size,
             LocalDate.parse(startDate, ofPattern),
-            LocalDate.parse(endDate,ofPattern)
+            LocalDate.parse(endDate, ofPattern),
         )
     }
-
-
 }

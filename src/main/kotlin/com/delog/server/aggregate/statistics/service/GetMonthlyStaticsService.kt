@@ -13,12 +13,10 @@ import java.time.YearMonth
 @Transactional(readOnly = true)
 class GetMonthlyStaticsService(
     private val staticsRepository: StaticsRepository,
-    private val statsPersistenceMapper: StatsPersistenceMapper
+    private val statsPersistenceMapper: StatsPersistenceMapper,
 ) {
-
     fun getMonthlyStatistics(month: Int): StatisticsMonthlyResponse {
-
-        val username = UserContextHolder.getCurrentUser().toString();
+        val username = UserContextHolder.getCurrentUser().toString()
         val yearMonth = getYearMonth(month)
 
         val startDateTime = yearMonth.atDay(1).atStartOfDay()
@@ -29,11 +27,9 @@ class GetMonthlyStaticsService(
         return statsPersistenceMapper.mapToMonthlyResponse(weekList)
     }
 
-
     private fun getYearMonth(month: Int): YearMonth {
         val currentYear = LocalDate.now().year
         val yearMonth = YearMonth.of(currentYear, month)
         return yearMonth
     }
-
 }

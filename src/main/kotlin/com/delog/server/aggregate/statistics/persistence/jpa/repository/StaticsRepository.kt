@@ -8,13 +8,11 @@ import org.springframework.data.jpa.repository.Query
 import java.time.LocalDateTime
 
 interface StaticsRepository : JpaRepository<StatisticsEntity, Long> {
-
-
     fun findByUsernameAndCreatedAtBetween(
         username: String,
         startDateTime: LocalDateTime,
         endDateTime: LocalDateTime,
-        pageable: Pageable
+        pageable: Pageable,
     ): Page<StatisticsEntity>
 
     @Query(
@@ -23,13 +21,11 @@ interface StaticsRepository : JpaRepository<StatisticsEntity, Long> {
                       FROM StatisticsEntity s
                      WHERE s.username   = :username
                        AND s.createdAt BETWEEN :startDateTime AND :endDateTime
-                """
+                """,
     )
     fun findByMonthlyInfoAndUserName(
         startDateTime: LocalDateTime,
         endDateTime: LocalDateTime,
-        username: String
+        username: String,
     ): List<StatisticsEntity>
-
-
 }

@@ -9,7 +9,6 @@ import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -19,10 +18,9 @@ class DeliveryOrderService(
 ) {
 
     @Transactional
-    fun createOrder(request: CreateDeliveryOrderRequest): GetDeliveryOrderResponse {
+    fun createOrder(request: CreateDeliveryOrderRequest): DeliveryOrderEntity {
         val entity = deliveryOrderMapper.toEntity(request)
-        val savedEntity = deliveryOrderRepository.save(entity)
-        return deliveryOrderMapper.toResponse(savedEntity)
+        return deliveryOrderRepository.save(entity)
     }
 
     fun findOrderById(id:Long): GetDeliveryOrderResponse {
@@ -73,5 +71,4 @@ class DeliveryOrderService(
         return deliveryOrderRepository.findAllByOrderDateTimeBetween(startDateTime, endDateTime)
             .map { deliveryOrderMapper.toResponse(it) }
     }
-
 }

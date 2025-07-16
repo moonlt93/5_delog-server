@@ -12,9 +12,8 @@ import java.math.BigInteger
 
 @Component
 class StatsPersistenceMapper {
-
-    fun mapToEntity(stats: Stats): StatisticsEntity {
-        return StatisticsEntity(
+    fun mapToEntity(stats: Stats): StatisticsEntity =
+        StatisticsEntity(
             stats.statsId,
             stats.username,
             stats.totalOrderCount,
@@ -25,9 +24,8 @@ class StatsPersistenceMapper {
             stats.minOrderGap ?: 0,
             stats.averageOrderGap ?: 0,
             stats.totalItemCount,
-            stats.deliveryOrderIdList
+            stats.deliveryOrderIdList,
         )
-    }
 
     fun mapToResponse(entity: StatisticsEntity): StatisticsResponse =
         StatisticsResponse(
@@ -41,20 +39,20 @@ class StatsPersistenceMapper {
             minOrderGap = entity.minOrderGap,
             averageOrderGap = entity.averageOrderGap,
             totalItemCount = entity.totalItemCount,
-            deliveryOrderIdList = entity.deliveryOrderIdList
+            deliveryOrderIdList = entity.deliveryOrderIdList,
         )
 
     fun mapToPaginateResponse(findList: Page<StatisticsEntity>): StatisticsPaginateResponse {
-
-        val contents: List<StatisticsContentResponse> = findList.content.map { entity ->
-            StatisticsContentResponse(
-                statsId = entity.id,
-                username = entity.username,
-                totalOrderCount = entity.totalOrderCount,
-                totalSpent = entity.totalSpent,
-                averageOrderGap = entity.averageOrderGap
-            )
-        }
+        val contents: List<StatisticsContentResponse> =
+            findList.content.map { entity ->
+                StatisticsContentResponse(
+                    statsId = entity.id,
+                    username = entity.username,
+                    totalOrderCount = entity.totalOrderCount,
+                    totalSpent = entity.totalSpent,
+                    averageOrderGap = entity.averageOrderGap,
+                )
+            }
 
         return StatisticsPaginateResponse(
             content = contents,
@@ -62,41 +60,35 @@ class StatsPersistenceMapper {
             totalPages = findList.totalPages,
             size = findList.size,
             number = findList.number,
-            numberOfElements = findList.numberOfElements
+            numberOfElements = findList.numberOfElements,
         )
     }
 
-    fun mapToMonthlyResponse(
-        weekList: List<StatisticsEntity>
-    ): StatisticsMonthlyResponse {
+    fun mapToMonthlyResponse(weekList: List<StatisticsEntity>): StatisticsMonthlyResponse {
         val builder = MonthlyBuilder()
         weekList.forEach { builder.add(it) }
-        return builder.build();
+        return builder.build()
     }
 
     companion object {
-
         private class MonthlyBuilder {
             private var deliveryCount = 0
             private var orderMenuCount = 0
             private var totalSpent = BigInteger.ZERO
 
-            fun add(entity: StatisticsEntity) = apply {
-                deliveryCount += entity.totalOrderCount
-                orderMenuCount += entity.totalItemCount
-                totalSpent += entity.totalSpent
-            }
+            fun add(entity: StatisticsEntity) =
+                apply {
+                    deliveryCount += entity.totalOrderCount
+                    orderMenuCount += entity.totalItemCount
+                    totalSpent += entity.totalSpent
+                }
 
-            fun build(): StatisticsMonthlyResponse {
-                return StatisticsMonthlyResponse(
+            fun build(): StatisticsMonthlyResponse =
+                StatisticsMonthlyResponse(
                     deliveryCount = deliveryCount,
                     orderMenuCount = orderMenuCount,
                     totalSpent = totalSpent,
                 )
-            }
         }
     }
-
 }
-
-

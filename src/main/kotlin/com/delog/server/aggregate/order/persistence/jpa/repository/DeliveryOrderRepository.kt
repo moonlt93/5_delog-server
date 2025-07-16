@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.LocalDateTime
 
-interface DeliveryOrderRepository: JpaRepository<DeliveryOrderEntity, Long>{
+interface DeliveryOrderRepository: JpaRepository<DeliveryOrderEntity, Long> {
 
     fun findAllByOrderDateTimeBetween(start: LocalDateTime, end: LocalDateTime): List<DeliveryOrderEntity>
 

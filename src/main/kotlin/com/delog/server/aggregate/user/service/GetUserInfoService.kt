@@ -9,18 +9,14 @@ import org.springframework.stereotype.Service
 @Service
 class GetUserInfoService(
     private val userRepository: UserRepository,
-    private val userPersistenceMapper: UserPersistenceMapper
+    private val userPersistenceMapper: UserPersistenceMapper,
 ) {
-
     fun findByUsername(username: String): UserInfoResponse {
+        val userInfo =
+            userRepository.findById(username).orElseThrow {
+                EntityNotFoundException("User with username $username not found")
+            }
 
-        val userInfo = userRepository.findById(username).orElseThrow {
-
-            EntityNotFoundException("User with username $username not found")
-
-        }
-
-        return userPersistenceMapper.mapToInfoResponse(userInfo);
+        return userPersistenceMapper.mapToInfoResponse(userInfo)
     }
-
 }
