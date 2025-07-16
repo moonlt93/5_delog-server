@@ -1,4 +1,4 @@
-package com.delog.server.aggregate.statistics.presentation.dto
+package com.delog.server.aggregate.statistics.presentation.dto.response
 
 import java.math.BigInteger
 
