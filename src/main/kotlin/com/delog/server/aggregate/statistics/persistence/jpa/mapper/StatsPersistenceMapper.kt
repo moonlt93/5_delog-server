@@ -2,11 +2,13 @@ package com.delog.server.aggregate.statistics.persistence.jpa.mapper
 
 import com.delog.server.aggregate.statistics.domain.Stats
 import com.delog.server.aggregate.statistics.domain.entity.StatisticsEntity
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsContentResponse
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsPaginateResponse
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsContentResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsMonthlyResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsPaginateResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsResponse
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Component
+import java.math.BigInteger
 
 @Component
 class StatsPersistenceMapper {
@@ -46,22 +48,53 @@ class StatsPersistenceMapper {
 
         val contents: List<StatisticsContentResponse> = findList.content.map { entity ->
             StatisticsContentResponse(
-                statsId           = entity.id,
-                username          = entity.username,
-                totalOrderCount   = entity.totalOrderCount,
-                totalSpent        = entity.totalSpent,
-                averageOrderGap   = entity.averageOrderGap
+                statsId = entity.id,
+                username = entity.username,
+                totalOrderCount = entity.totalOrderCount,
+                totalSpent = entity.totalSpent,
+                averageOrderGap = entity.averageOrderGap
             )
         }
 
         return StatisticsPaginateResponse(
-            content           = contents,
-            totalElements     = findList.totalElements,
-            totalPages        = findList.totalPages,
-            size              = findList.size,
-            number            = findList.number,
-            numberOfElements  = findList.numberOfElements
+            content = contents,
+            totalElements = findList.totalElements,
+            totalPages = findList.totalPages,
+            size = findList.size,
+            number = findList.number,
+            numberOfElements = findList.numberOfElements
         )
+    }
+
+    fun mapToMonthlyResponse(
+        weekList: List<StatisticsEntity>
+    ): StatisticsMonthlyResponse {
+        val builder = MonthlyBuilder()
+        weekList.forEach { builder.add(it) }
+        return builder.build();
+    }
+
+    companion object {
+
+        private class MonthlyBuilder {
+            private var deliveryCount = 0
+            private var orderMenuCount = 0
+            private var totalSpent = BigInteger.ZERO
+
+            fun add(entity: StatisticsEntity) = apply {
+                deliveryCount += entity.totalOrderCount
+                orderMenuCount += entity.totalItemCount
+                totalSpent += entity.totalSpent
+            }
+
+            fun build(): StatisticsMonthlyResponse {
+                return StatisticsMonthlyResponse(
+                    deliveryCount = deliveryCount,
+                    orderMenuCount = orderMenuCount,
+                    totalSpent = totalSpent,
+                )
+            }
+        }
     }
 
 }

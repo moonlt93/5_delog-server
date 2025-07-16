@@ -3,8 +3,9 @@ package com.delog.server.aggregate.statistics.service
 import com.delog.server.aggregate.statistics.persistence.jpa.mapper.StatsPersistenceMapper
 import com.delog.server.aggregate.statistics.persistence.jpa.repository.StaticsRepository
 import com.delog.server.aggregate.statistics.presentation.dto.StatisticsCommand
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsPaginateResponse
-import com.delog.server.aggregate.statistics.presentation.dto.StatisticsResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsPaginateResponse
+import com.delog.server.aggregate.statistics.presentation.dto.response.StatisticsResponse
+import com.delog.server.aggregate.user.application.interceptor.UserContextHolder
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -31,8 +32,7 @@ class GetPageableStaticsListService(
             Sort.by(Sort.Direction.DESC, "createdAt")
         )
 
-        //TODO: 인증 수행시 context에서 꺼내서 쓰기
-        val username = "jinsu";
+        val username = UserContextHolder.getCurrentUser().toString();
 
         val findList =
             staticsRepository.findByUsernameAndCreatedAtBetween(username, startDateTime, endDateTime, pageable)
