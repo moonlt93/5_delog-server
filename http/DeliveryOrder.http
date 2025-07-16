@@ -3,15 +3,17 @@
 ### ========================================
 
 # 변수 설정 (테스트할 서버 주소)
+# DB에 user 등록 후 username 작성
 @host = http://localhost:8080
 @api_prefix = {{host}}/api/orders
+@username = any
 
 
 ### 1. Delivery Order 생성
 # @name: createOrder
 POST {{api_prefix}}
 Content-Type: application/json
-Authorization: admin
+Authorization: {{username}}
 
 {
   "menuName": "마라샹궈",
@@ -31,20 +33,20 @@ Authorization: admin
 # 이전에 생성된 주문의 ID를 사용하여 조회
 GET {{api_prefix}}/{{orderId}}
 Accept: application/json
-Authorization: admin
+Authorization: {{username}}
 
 
 ### 3. 모든 주문 조회 테스트
 GET {{api_prefix}}
 Accept: application/json
-Authorization: admin
+Authorization: {{username}}
 
 
 ### 4. 주문 수정 테스트
 # {{orderId}} 변수를 사용하여 특정 주문을 수정
 PUT {{api_prefix}}/{{orderId}}
 Content-Type: application/json
-Authorization: admin
+Authorization: {{username}}
 
 {
   "menuName": "마라샹궈 (순한맛)",
@@ -63,4 +65,4 @@ Authorization: admin
 ### 5. 주문 삭제 테스트
 # {{orderId}} 변수를 사용하여 특정 주문을 삭제
 DELETE {{api_prefix}}/{{orderId}}
-Authorization: admin
+Authorization: {{username}}
