@@ -17,7 +17,7 @@ class StatsJobLauncher(
 ) {
     private val logger = LoggerFactory.getLogger(JobLauncher::class.java)
 
-    @Scheduled(cron = "* */5 * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 */6 * * * *", zone = "Asia/Seoul")
     fun runWeeklyStatsJob() {
 
         val params = JobParametersBuilder()
