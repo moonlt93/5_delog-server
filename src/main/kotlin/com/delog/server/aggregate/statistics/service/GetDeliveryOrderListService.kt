@@ -4,9 +4,11 @@ import com.delog.server.aggregate.order.domain.entity.DeliveryOrderEntity
 import com.delog.server.aggregate.order.persistence.jpa.repository.DeliveryOrderRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Service
+@Transactional(readOnly = true)
 class GetDeliveryOrderListService(
     private val deliveryOrderRepository: DeliveryOrderRepository
 ) {
