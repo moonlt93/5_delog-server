@@ -1,0 +1,27 @@
+### ========================================
+### Statistics API Test
+### ========================================
+
+# 변수 설정 (테스트할 서버 주소)
+@host = http://localhost:8080
+@api_prefix = {{host}}/api/stats
+
+
+### 1. getPageableStatistics
+GET {{api_prefix}}/list?page=0&size=10&startDate=2025-07-01&endDate=2025-07-16
+Content-Type: application/json
+
+#{
+#  "page": 0,
+#  "size": 10,
+#  "startDate": "2025-07-10",
+#  "endDate": "2025-07-16"
+#}
+
+
+### 2. detail 조회 테스트
+# 이전에 생성된 주문의 ID를 사용하여 조회
+@statsId = 11
+GET {{api_prefix}}/detail/{{statsId}}
+Accept: application/json
+
