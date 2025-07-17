@@ -56,7 +56,7 @@ class StatsPersistenceMapper {
                     totalSpent = entity.totalSpent,
                     averageOrderGap = entity.averageOrderGap,
                     summaryStartDate = entity.summaryStartDate.toString(),
-                    summaryEndDate = entity.summaryEndDate.toString()
+                    summaryEndDate = entity.summaryEndDate.toString(),
                 )
             }
 
@@ -81,7 +81,7 @@ class StatsPersistenceMapper {
             private var deliveryCount = 0
             private var orderMenuCount = 0
             private var totalSpent = BigInteger.ZERO
-            private var summaryMonth = 0;
+            private var summaryMonth = 0
 
             fun add(entity: StatisticsEntity) =
                 apply {
@@ -96,7 +96,7 @@ class StatsPersistenceMapper {
                     deliveryCount = deliveryCount,
                     orderMenuCount = orderMenuCount,
                     totalSpent = totalSpent,
-                    summaryMonth = summaryMonth
+                    summaryMonth = summaryMonth,
                 )
         }
     }

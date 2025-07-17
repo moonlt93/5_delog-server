@@ -1,5 +1,6 @@
 package com.delog.server.aggregate.order.service
 
+import com.delog.server.aggregate.order.domain.entity.DeliveryOrderEntity
 import com.delog.server.aggregate.order.persistence.jpa.repository.DeliveryOrderRepository
 import com.delog.server.aggregate.order.presentation.dto.CreateDeliveryOrderRequest
 import com.delog.server.aggregate.order.presentation.dto.GetDeliveryOrderResponse
@@ -14,25 +15,27 @@ import java.time.LocalDate
 @Transactional(readOnly = true)
 class DeliveryOrderService(
     private val deliveryOrderRepository: DeliveryOrderRepository,
-    private val deliveryOrderMapper: DeliveryOrderMapper
+    private val deliveryOrderMapper: DeliveryOrderMapper,
 ) {
-
     @Transactional
-    fun createOrder(request: CreateDeliveryOrderRequest): DeliveryOrderEntity {
+    fun createOrder(request: CreateDeliveryOrderRequest): GetDeliveryOrderResponse {
         val entity = deliveryOrderMapper.toEntity(request)
-        return deliveryOrderRepository.save(entity)
+        val savedEntity = deliveryOrderRepository.save(entity)
+        return deliveryOrderMapper.toResponse(savedEntity)
     }
 
-    fun findOrderById(id:Long): GetDeliveryOrderResponse {
-        val entity = deliveryOrderRepository.findById(id)
-            .orElseThrow{ EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
+    fun findOrderById(id: Long): GetDeliveryOrderResponse {
+        val entity =
+            deliveryOrderRepository
+                .findById(id)
+                .orElseThrow { EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
         return deliveryOrderMapper.toResponse(entity)
     }
 
-    fun findAllOrders():List<GetDeliveryOrderResponse> {
-        return deliveryOrderRepository.findAll()
+    fun findAllOrders(): List<GetDeliveryOrderResponse> =
+        deliveryOrderRepository
+            .findAll()
             .map { deliveryOrderMapper.toResponse(it) }
-    }
 
     @Transactional
     fun deleteOrder(id: Long) {
@@ -43,9 +46,14 @@ class DeliveryOrderService(
     }
 
     @Transactional
-    fun updateOrder(id:Long, request: UpdateDeliveryOrderRequest): GetDeliveryOrderResponse {
-        val existingEntity = deliveryOrderRepository.findById(id)
-            .orElseThrow { EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
+    fun updateOrder(
+        id: Long,
+        request: UpdateDeliveryOrderRequest,
+    ): GetDeliveryOrderResponse {
+        val existingEntity =
+            deliveryOrderRepository
+                .findById(id)
+                .orElseThrow { EntityNotFoundException("해당 ID의 주문을 찾을 수 없습니다: $id") }
 
         existingEntity.apply {
             this.menuName = request.menuName
@@ -68,7 +76,8 @@ class DeliveryOrderService(
         // 해당 날짜의 끝 시간
         val endDateTime = date.plusDays(1).atStartOfDay()
 
-        return deliveryOrderRepository.findAllByOrderDateTimeBetween(startDateTime, endDateTime)
+        return deliveryOrderRepository
+            .findAllByOrderDateTimeBetween(startDateTime, endDateTime)
             .map { deliveryOrderMapper.toResponse(it) }
     }
 }

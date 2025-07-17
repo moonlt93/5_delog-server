@@ -3,7 +3,6 @@ package com.delog.server.aggregate.order.presentation.controller
 import com.delog.server.aggregate.order.presentation.dto.CreateDeliveryOrderRequest
 import com.delog.server.aggregate.order.presentation.dto.GetDeliveryOrderResponse
 import com.delog.server.aggregate.order.presentation.dto.UpdateDeliveryOrderRequest
-import com.delog.server.aggregate.order.presentation.mapper.DeliveryOrderMapper
 import com.delog.server.aggregate.order.service.DeliveryOrderService
 import jakarta.validation.Valid
 import org.springframework.format.annotation.DateTimeFormat
@@ -20,19 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 
-
 @RestController
 @RequestMapping("/api/orders")
 class DeliveryOrderController(
     private val deliveryOrderService: DeliveryOrderService,
-    private val deliveryOrderMapper: DeliveryOrderMapper,
 ) {
     @PostMapping
     fun createOrder(
         @Valid @RequestBody request: CreateDeliveryOrderRequest,
     ): ResponseEntity<GetDeliveryOrderResponse> {
-        val createdEntity = deliveryOrderService.createOrder(request)
-        val response = deliveryOrderMapper.toResponse(createdEntity)
+        val response = deliveryOrderService.createOrder(request)
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
@@ -40,15 +36,13 @@ class DeliveryOrderController(
     fun getOrderById(
         @PathVariable id: Long,
     ): ResponseEntity<GetDeliveryOrderResponse> {
-        val entity = deliveryOrderService.findOrderById(id)
-        val response = deliveryOrderMapper.toResponse(entity)
+        val response = deliveryOrderService.findOrderById(id)
         return ResponseEntity.ok(response)
     }
 
     @GetMapping
     fun getAllOrders(): ResponseEntity<List<GetDeliveryOrderResponse>> {
-        val orders = deliveryOrderService.findAllOrders()
-        val response = orders.map { deliveryOrderMapper.toResponse(it) }
+        val response = deliveryOrderService.findAllOrders()
         return ResponseEntity.ok(response)
     }
 
@@ -73,7 +67,7 @@ class DeliveryOrderController(
     fun getOrdersByDate(
         @RequestParam("date")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        date: LocalDate
+        date: LocalDate,
     ): ResponseEntity<List<GetDeliveryOrderResponse>> {
         val response = deliveryOrderService.findOrdersByDate(date)
         return ResponseEntity.ok(response)

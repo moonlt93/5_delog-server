@@ -24,7 +24,6 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-
 }
 
 configurations {
@@ -85,16 +84,18 @@ kotlinter {
 
 tasks.register<LintTask>("customLint") {
     group = "verification"
-    source = files("src").asFileTree.matching {
-        include("**/*.kt", "**/*.kts")
-        exclude("**/*.http")
-    }
+    source =
+        files("src").asFileTree.matching {
+            include("**/*.kt", "**/*.kts")
+            exclude("**/*.http")
+        }
 }
 
 tasks.register<FormatTask>("customFormat") {
     group = "formatting"
-    source = files("src").asFileTree.matching {
-        include("**/*.kt", "**/*.kts")
-        exclude("**/*.http")
-    }
+    source =
+        files("src").asFileTree.matching {
+            include("**/*.kt", "**/*.kts")
+            exclude("**/*.http")
+        }
 }
