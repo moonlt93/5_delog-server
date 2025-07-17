@@ -17,6 +17,8 @@ class Stats(
     val minOrderGap: Int?,
     val averageOrderGap: Int,
     val totalItemCount: Int,
+    val summaryStartDate: LocalDate,
+    val summaryEndDate: LocalDate,
     val deliveryOrderIdList: List<Long> = listOf(),
 ) {
     companion object {
@@ -44,6 +46,8 @@ class Stats(
                 gaps.second?.toInt() ?: 0,
                 (gaps.first + gaps.second / 2).toInt(),
                 deliveryOrderList.sumBy { it.quantity },
+                startDate.toLocalDate(),
+                endDate.toLocalDate(),
                 deliveryOrderList.map { it.id },
             )
         }
