@@ -12,6 +12,6 @@ class WebMvcConfig(
         registry
             .addInterceptor(authenticationInterceptor)
             .addPathPatterns("/**")
-            .excludePathPatterns("/api/user/register")
+            .excludePathPatterns("/api/user/register","/v3/api-docs","/swagger-ui/index.html")
     }
 }
