@@ -6,6 +6,7 @@ import com.delog.server.aggregate.order.presentation.dto.UpdateDeliveryOrderRequ
 import com.delog.server.aggregate.order.presentation.mapper.DeliveryOrderMapper
 import com.delog.server.aggregate.order.service.DeliveryOrderService
 import jakarta.validation.Valid
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 
 
 @RestController
@@ -59,6 +62,17 @@ class DeliveryOrderController(
     ): ResponseEntity<GetDeliveryOrderResponse> {
         val updatedEntity = deliveryOrderService.updateOrder(id, request)
         val response = deliveryOrderMapper.toResponse(updatedEntity)
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping(params = ["date"])
+    fun getOrdersByDate(
+        @RequestParam("date")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        date: LocalDate
+    ): ResponseEntity<List<GetDeliveryOrderResponse>> {
+        val orders = deliveryOrderService.findOrdersByDate(date)
+        val response = orders.map { deliveryOrderMapper.toResponse(it) }
         return ResponseEntity.ok(response)
     }
 }

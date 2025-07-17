@@ -59,3 +59,9 @@ Content-Type: application/json
 ### 5. 주문 삭제 테스트
 # {{orderId}} 변수를 사용하여 특정 주문을 삭제
 DELETE {{api_prefix}}/{{orderId}}
+
+
+### 6. 특정 날짜의 주문 조회 테스트
+# 'yyyy-MM-dd' 형식으로 날짜를 지정하여 조회
+GET {{api_prefix}}?date=2025-07-12
+Accept: application/json

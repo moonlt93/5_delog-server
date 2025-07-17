@@ -8,6 +8,8 @@ import com.delog.server.aggregate.order.presentation.mapper.DeliveryOrderMapper
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -56,6 +58,16 @@ class DeliveryOrderService(
             this.rating = request.rating
         }
         return existingEntity
+    }
+
+    fun findOrdersByDate(date: LocalDate): List<DeliveryOrderEntity> {
+        // 해당 날짜의 시작 시간
+        val startDateTime = date.atStartOfDay()
+
+        // 해당 날짜의 끝 시간
+        val endDateTime = date.plusDays(1).atStartOfDay()
+
+        return deliveryOrderRepository.findAllByOrderDateTimeBetween(startDateTime, endDateTime)
     }
 
 }
