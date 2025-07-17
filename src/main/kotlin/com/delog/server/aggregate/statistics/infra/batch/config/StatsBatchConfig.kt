@@ -3,7 +3,6 @@ package com.delog.server.aggregate.statistics.infra.batch.config
 import com.delog.server.aggregate.statistics.domain.Stats
 import com.delog.server.aggregate.statistics.service.GetDeliveryOrderListService
 import com.delog.server.aggregate.statistics.service.SaveStaticsDataService
-import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing

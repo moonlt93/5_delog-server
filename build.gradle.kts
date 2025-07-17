@@ -10,7 +10,6 @@ plugins {
     id("org.jmailen.kotlinter") version "4.4.1"
 }
 
-
 group = "com.delog"
 version = "0.0.1-SNAPSHOT"
 
@@ -49,7 +48,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-batch")
     testImplementation("org.springframework.batch:spring-batch-test")
 
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

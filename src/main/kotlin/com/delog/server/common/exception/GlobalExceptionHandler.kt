@@ -2,6 +2,7 @@ package com.delog.server.common.exception
 
 import com.delog.server.common.exception.dto.ErrorResponse
 import jakarta.persistence.EntityNotFoundException
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -48,7 +49,17 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception::class)
-    protected fun handleGlobalException(e: Exception): ResponseEntity<ErrorResponse> {
+    protected fun handleGlobalException(
+        request: HttpServletRequest,
+        e: Exception,
+    ): ResponseEntity<ErrorResponse> {
+        val uri = request.requestURI
+
+        // Swagger 요청은 예외 처리 안 하고 그대로 통과시킴
+        if (uri.startsWith("/v3/api-docs") || uri.startsWith("/swagger-ui")) {
+            throw e
+        }
+
         val errorResponse =
             ErrorResponse(
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,

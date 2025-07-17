@@ -19,7 +19,7 @@ class DeliveryOrderService(
 ) {
     @Transactional
     fun createOrder(request: CreateDeliveryOrderRequest): GetDeliveryOrderResponse {
-        val username = UserContextHolder.getCurrentUser().toString();
+        val username = UserContextHolder.getCurrentUser().toString()
         val entity = deliveryOrderMapper.toEntity(request, username)
         val savedEntity = deliveryOrderRepository.save(entity)
         return deliveryOrderMapper.toResponse(savedEntity)

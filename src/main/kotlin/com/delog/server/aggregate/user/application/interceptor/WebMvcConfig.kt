@@ -11,7 +11,10 @@ class WebMvcConfig(
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry
             .addInterceptor(authenticationInterceptor)
-            .addPathPatterns("/**")
-            .excludePathPatterns("/api/user/register", "/v3/api-docs", "/swagger-ui/index.html")
+            .addPathPatterns(
+                "/api/user/{username}",
+                "/api/stats/**",
+                "/api/orders/**",
+            )
     }
 }

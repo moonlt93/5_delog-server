@@ -19,5 +19,5 @@ data class GetDeliveryOrderResponse(
     val rating: Int?,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
-    val username: String
+    val username: String,
 )
