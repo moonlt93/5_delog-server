@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class DeliveryOrderMapper {
-    fun toEntity(dto: CreateDeliveryOrderRequest): DeliveryOrderEntity =
+    fun toEntity(dto: CreateDeliveryOrderRequest, username: String): DeliveryOrderEntity =
         DeliveryOrderEntity(
             menuName = dto.menuName,
             price = dto.price,
@@ -19,7 +19,7 @@ class DeliveryOrderMapper {
             platform = dto.platform,
             memo = dto.memo,
             rating = dto.rating,
-            username = "",
+            username = username,
         )
 
     fun toResponse(entity: DeliveryOrderEntity): GetDeliveryOrderResponse =
@@ -37,5 +37,6 @@ class DeliveryOrderMapper {
             rating = entity.rating,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
+            username = entity.username
         )
 }
