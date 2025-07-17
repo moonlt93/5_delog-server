@@ -6,4 +6,5 @@ data class StatisticsMonthlyResponse(
     val deliveryCount: Int,
     val orderMenuCount: Int,
     val totalSpent: BigInteger,
+    val summaryMonth: Int,
 )

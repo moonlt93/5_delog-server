@@ -14,6 +14,7 @@ import jakarta.persistence.UniqueConstraint
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.math.BigInteger
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
@@ -42,6 +43,10 @@ class StatisticsEntity(
     var averageOrderGap: Int,
     @Column(nullable = false)
     var totalItemCount: Int,
+    @Column(nullable = false)
+    var summaryStartDate: LocalDate,
+    @Column(nullable = false)
+    var summaryEndDate: LocalDate,
     @ElementCollection
     @CollectionTable(
         name = "delivery_orderId_list",

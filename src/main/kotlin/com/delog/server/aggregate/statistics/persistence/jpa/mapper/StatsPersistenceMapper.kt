@@ -24,6 +24,8 @@ class StatsPersistenceMapper {
             stats.minOrderGap ?: 0,
             stats.averageOrderGap ?: 0,
             stats.totalItemCount,
+            stats.summaryStartDate,
+            stats.summaryEndDate,
             stats.deliveryOrderIdList,
         )
 
@@ -39,6 +41,8 @@ class StatsPersistenceMapper {
             minOrderGap = entity.minOrderGap,
             averageOrderGap = entity.averageOrderGap,
             totalItemCount = entity.totalItemCount,
+            summaryStartDate = entity.summaryStartDate.toString(),
+            summaryEndDate = entity.summaryEndDate.toString(),
             deliveryOrderIdList = entity.deliveryOrderIdList,
         )
 
@@ -51,6 +55,8 @@ class StatsPersistenceMapper {
                     totalOrderCount = entity.totalOrderCount,
                     totalSpent = entity.totalSpent,
                     averageOrderGap = entity.averageOrderGap,
+                    summaryStartDate = entity.summaryStartDate.toString(),
+                    summaryEndDate = entity.summaryEndDate.toString()
                 )
             }
 
@@ -75,12 +81,14 @@ class StatsPersistenceMapper {
             private var deliveryCount = 0
             private var orderMenuCount = 0
             private var totalSpent = BigInteger.ZERO
+            private var summaryMonth = 0;
 
             fun add(entity: StatisticsEntity) =
                 apply {
                     deliveryCount += entity.totalOrderCount
                     orderMenuCount += entity.totalItemCount
                     totalSpent += entity.totalSpent
+                    summaryMonth = entity.summaryStartDate.monthValue
                 }
 
             fun build(): StatisticsMonthlyResponse =
@@ -88,6 +96,7 @@ class StatsPersistenceMapper {
                     deliveryCount = deliveryCount,
                     orderMenuCount = orderMenuCount,
                     totalSpent = totalSpent,
+                    summaryMonth = summaryMonth
                 )
         }
     }

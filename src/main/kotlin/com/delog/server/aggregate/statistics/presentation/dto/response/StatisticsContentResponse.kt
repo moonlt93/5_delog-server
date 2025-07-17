@@ -8,4 +8,6 @@ data class StatisticsContentResponse(
     val totalOrderCount: Int,
     val totalSpent: BigInteger,
     val averageOrderGap: Int,
+    val summaryStartDate: String,
+    val summaryEndDate: String,
 )
