@@ -72,3 +72,4 @@ Authorization: {{username}}
 # 'yyyy-MM-dd' 형식으로 날짜를 지정하여 조회
 GET {{api_prefix}}?date=2025-07-12
 Accept: application/json
+Authorization: {{username}}
